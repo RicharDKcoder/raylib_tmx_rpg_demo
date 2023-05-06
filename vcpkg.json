@@ -1,0 +1,10 @@
+{
+    "dependencies": [
+        {
+            "name": "raylib"
+        },
+        {
+            "name": "tmx"
+        }
+    ]
+}

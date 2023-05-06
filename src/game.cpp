@@ -1,14 +1,11 @@
 #include "game.h"
-#include "character.h"
-#include "map_system.h"
 #include "ninja_character.h"
 #include "raylib.h"
 
-Game::Game()
+Game::Game(GameConfig config)
 {
-    const int screenWidth = 960;
-    const int screenHeight = 640;
-    InitWindow(screenWidth, screenHeight, "basic window");
+    this->config = config;
+    InitWindow(config.GetScreenWidth(), config.GetScreenHeight(), config.GetTitle());
 
     SetTargetFPS(60);
     MapSystem *mapSystem = new MapSystem();
@@ -21,6 +18,11 @@ Game::Game()
 Game::~Game()
 {
     delete this->mapSystem;
+}
+
+void Game::Update()
+{
+    this->character->Update();
 }
 
 void Game::HandlerEvent()
@@ -42,10 +44,13 @@ void Game::Run()
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        // 更新
+        this->Update();
         // 处理事件
         this->HandlerEvent();
         // 绘图
         this->Draw();
+        DrawFPS(10, 10);
         EndDrawing();
     }
     CloseWindow();

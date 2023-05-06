@@ -1,6 +1,14 @@
 #ifndef ANIMATION_H_
 #define ANIMATION_H_
 #include "raylib.h"
+
+enum AnimationDirection
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+};
 class Animation
 {
   public:
@@ -12,6 +20,7 @@ class Animation
     ~Animation();
 
     void Play();
+    void Play(AnimationDirection direction);
 
   private:
     Texture2D texture;

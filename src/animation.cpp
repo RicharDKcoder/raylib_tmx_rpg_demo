@@ -24,7 +24,32 @@ Animation::~Animation()
 
 void Animation::Play()
 {
-    std::cout << "frameTimeBuffer: " << this->frameTimeBuffer << "curFrameNum: " << this->curFrameNum << std::endl;
+    this->Play(AnimationDirection::RIGHT);
+}
+
+void Animation::Play(AnimationDirection direction)
+{
+    if (direction == AnimationDirection::UP)
+    {
+        this->frameRectangle->width = this->frameWidth;
+        this->frameRectangle->height = this->frameHeight;
+    }
+    if (direction == AnimationDirection::DOWN)
+    {
+        this->frameRectangle->width = this->frameWidth;
+        this->frameRectangle->height = -this->frameHeight;
+    }
+    if (direction == AnimationDirection::LEFT)
+    {
+        this->frameRectangle->width = -this->frameWidth;
+        this->frameRectangle->height = this->frameHeight;
+    }
+    if (direction == AnimationDirection::RIGHT)
+    {
+        this->frameRectangle->width = this->frameWidth;
+        this->frameRectangle->height = this->frameHeight;
+    }
+
     float lastFrameTime = GetFrameTime();
     this->frameTimeBuffer += lastFrameTime;
     if (this->frameTimeBuffer > this->frameTimeLimit)

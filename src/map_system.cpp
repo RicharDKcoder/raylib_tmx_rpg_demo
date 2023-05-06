@@ -4,9 +4,10 @@
 
 MapSystem::MapSystem()
 {
-    this->mapResourceList.push_back((char *)"resources/background.tmx");
+    MapResource mapResource = MapResource{(char *)"resources/background.tmx", 8, 8, 8, 8};
+    this->mapResourceList.push_back(&mapResource);
     this->curMapIndex = 0;
-    this->curMap = LoadTMX(this->mapResourceList.at(this->curMapIndex));
+    this->curMap = LoadTMX(this->mapResourceList.at(this->curMapIndex)->tmxMapFile);
 }
 
 MapSystem::~MapSystem()
@@ -23,8 +24,10 @@ void MapSystem::ChangeToPre()
 {
     tmx_map *oldMap = this->curMap;
     // 加载新资源 并赋值
-    char *preMapFile = this->mapResourceList.at(--this->curMapIndex);
+    MapResource *curMapResource = this->mapResourceList.at(--this->curMapIndex);
+    const char *preMapFile = curMapResource->tmxMapFile;
     this->curMap = LoadTMX(preMapFile);
+    this->curMapResource = curMapResource;
     // 卸载旧资源
     UnloadTMX(oldMap);
 }
@@ -33,8 +36,15 @@ void MapSystem::ChangeToNext()
 {
     tmx_map *oldMap = this->curMap;
     // 加载新资源 并赋值
-    char *nextMapFile = this->mapResourceList.at(++this->curMapIndex);
+    MapResource *curMapResource = this->mapResourceList.at(++this->curMapIndex);
+    const char *nextMapFile = curMapResource->tmxMapFile;
     this->curMap = LoadTMX(nextMapFile);
+    this->curMapResource = curMapResource;
     // 卸载旧资源
     UnloadTMX(oldMap);
+}
+
+MapResource *MapSystem::GetCurMapResource()
+{
+    return this->curMapResource;
 }

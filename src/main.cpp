@@ -2,7 +2,8 @@
 #include <iostream>
 int main()
 {
-    Game *game = new Game();
+    GameConfig gameConfig{(char *)"game", 960, 640};
+    Game *game = new Game(gameConfig);
     game->Run();
     return 0;
 }
